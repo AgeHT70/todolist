@@ -27,6 +27,25 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "envparse"
+version = "0.2.0"
+description = "Simple environment variable parsing"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+testing = ["pytest"]
+
+[[package]]
+name = "psycopg2-binary"
+version = "2.9.5"
+description = "psycopg2 - Python-PostgreSQL Database Adapter"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "sqlparse"
 version = "0.4.3"
 description = "A non-validating SQL parser."
@@ -45,10 +64,12 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "0c127de28e3ca12dca95016e291f69549aa9f32b607b78f809548f0230d775e6"
+content-hash = "c0a77408235b3ea5a63a31250c3698672672f5700f5c48b3cef8124d696e0119"
 
 [metadata.files]
 asgiref = []
 django = []
+envparse = []
+psycopg2-binary = []
 sqlparse = []
 tzdata = []
