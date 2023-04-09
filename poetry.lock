@@ -38,6 +38,20 @@ python-versions = "*"
 testing = ["pytest"]
 
 [[package]]
+name = "gunicorn"
+version = "20.1.0"
+description = "WSGI HTTP Server for UNIX"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.extras]
+eventlet = ["eventlet (>=0.24.1)"]
+gevent = ["gevent (>=1.4.0)"]
+setproctitle = ["setproctitle"]
+tornado = ["tornado (>=0.2)"]
+
+[[package]]
 name = "psycopg2-binary"
 version = "2.9.5"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
@@ -64,12 +78,13 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c0a77408235b3ea5a63a31250c3698672672f5700f5c48b3cef8124d696e0119"
+content-hash = "a0280081582f6f02196929e3edc852e41289dc7ae66f432f85c454ce3da71e36"
 
 [metadata.files]
 asgiref = []
 django = []
 envparse = []
+gunicorn = []
 psycopg2-binary = []
 sqlparse = []
 tzdata = []
