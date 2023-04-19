@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party apps
+    'rest_framework',
     # First-party apps
     'core',
 ]
@@ -46,7 +48,6 @@ if DEBUG:
     INSTALLED_APPS += [
         'django_extensions',
     ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
