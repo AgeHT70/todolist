@@ -3,16 +3,36 @@ name = "todolist"
 version = "0.1.0"
 description = ""
 authors = ["AgeHT <vladimir.e.pavlov@yandex.ru>"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "^4.1.7"
+django = "^4.2"
 envparse = "^0.2.0"
-psycopg2-binary = "^2.9.5"
+psycopg2-binary = "^2.9.6"
 gunicorn = "^20.1.0"
 
-[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+django-extensions = "^3.2.1"
+pre-commit = "^3.2.2"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+skip-string-normalization = true
+skip-magic-trailing-coma = true
+exclude = '''
+(
+  /(
+      \.git
+    | \.github
+    | \.venv
+    | deploy
+  )/
+)
+'''

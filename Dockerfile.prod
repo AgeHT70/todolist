@@ -1,6 +1,6 @@
 FROM python:3.10.9-slim
 
-ENV POETRY_VERSION = 1.1.12
+ENV POETRY_VERSION = 1.4.2
 
 RUN pip install "poetry==$POETRY_VERSION"
 
@@ -9,7 +9,7 @@ WORKDIR /diplom
 COPY poetry.lock pyproject.toml ./
 
 RUN poetry config virtualenvs.create false
-RUN poetry install --no-root
+RUN poetry install --without dev --no-root
 
 COPY . .
 

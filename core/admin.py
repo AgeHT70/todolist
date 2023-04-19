@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Персональная информация', {'fields': ('first_name', 'last_name', 'email')}),
         ('Разрешения', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
-        ('Интересные даты', {'fields': ('last_login', 'date_joined')})
+        ('Интересные даты', {'fields': ('last_login', 'date_joined')}),
     )
 
 
