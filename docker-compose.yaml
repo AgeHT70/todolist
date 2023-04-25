@@ -31,10 +31,11 @@ services:
     volumes:
       - ./core:/diplom/core
       - ./todolist:/diplom/todolist
+      - ./goals:/diplom/goals
       - django_static:/diplom/static
 
   frontend:
-    image: sermalenk/skypro-front:lesson-35
+    image: sermalenk/skypro-front:lesson-36
     ports:
       - "80:80"
     depends_on:
