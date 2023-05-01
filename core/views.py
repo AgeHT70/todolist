@@ -32,9 +32,7 @@ class LoginView(GenericAPIView):
         serializer: Serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        user = authenticate(
-            username=serializer.validated_data['username'], password=serializer.validated_data['password']
-        )
+        user = authenticate(**serializer.validated_data)
         if not user:
             raise AuthenticationFailed
 
