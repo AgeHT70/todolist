@@ -5,6 +5,7 @@ from goals import views
 app_name = 'goals'
 
 urlpatterns = [
+
     # Boards
     path('board/create', views.BoardCreateView.as_view(), name='board-create'),
     path('board/list', views.BoardListView.as_view(), name='board-list'),

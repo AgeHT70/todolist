@@ -35,7 +35,9 @@ services:
       - django_static:/diplom/static
 
   frontend:
+
     image: sermalenk/skypro-front:lesson-37
+
     ports:
       - "80:80"
     depends_on:
