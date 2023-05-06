@@ -32,6 +32,7 @@ services:
       - ./core:/diplom/core
       - ./todolist:/diplom/todolist
       - ./goals:/diplom/goals
+      - ./bot:/diplom/bot
       - django_static:/diplom/static
 
   frontend:
