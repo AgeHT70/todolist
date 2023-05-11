@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # First-party apps
     'core',
     'goals',
+    'bot',
 ]
 
 if DEBUG:
@@ -142,3 +143,4 @@ SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 AUTHENTICATION_BACKENDS = ['social_core.backends.vk.VKOAuth2', 'django.contrib.auth.backends.ModelBackend']
 
 REST_FRAMEWORK = {'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'}
+BOT_TOKEN = env.str('BOT_TOKEN')

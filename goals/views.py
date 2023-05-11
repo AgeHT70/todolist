@@ -18,7 +18,6 @@ from goals.serializers import (
     GoalSerializer,
     GoalCommentCreateSerializer,
     GoalCommentSerializer,
-
     BoardSerializer,
     BoardWithParticipantsSerializer,
 )
@@ -70,7 +69,6 @@ class GoalCategoryListView(generics.ListAPIView):
     serializer_class = GoalCategorySerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [
-
         DjangoFilterBackend,
         filters.OrderingFilter,
         filters.SearchFilter,
@@ -82,7 +80,6 @@ class GoalCategoryListView(generics.ListAPIView):
     search_fields = ['title']
 
     def get_queryset(self):
-
         return GoalCategory.objects.filter(board__participants__user=self.request.user, is_deleted=False)
 
 
@@ -93,7 +90,6 @@ class GoalCategoryView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return GoalCategory.objects.filter(board__participants__user=self.request.user, is_deleted=False)
 
-
     def perform_destroy(self, instance: GoalCategory) -> None:
         with transaction.atomic():
             instance.is_deleted = True
@@ -102,7 +98,6 @@ class GoalCategoryView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class GoalCreateView(generics.CreateAPIView):
-
     permission_classes = [GoalPermission]
 
     serializer_class = GoalCreateSerializer
@@ -123,7 +118,6 @@ class GoalListView(generics.ListAPIView):
     search_fields = ['title', 'description']
 
     def get_queryset(self):
-
         return Goal.objects.filter(
             category__is_deleted=False, category__board__participants__user_id=self.request.user.id
         ).exclude(status=Goal.Status.archived)
@@ -138,14 +132,12 @@ class GoalView(generics.RetrieveUpdateDestroyAPIView):
             category__is_deleted=False, category__board__participants__user_id=self.request.user.id
         ).exclude(status=Goal.Status.archived)
 
-
     def perform_destroy(self, instance: Goal):
         instance.status = Goal.Status.archived
         instance.save(update_fields=('status',))
 
 
 class GoalCommentCreateView(generics.CreateAPIView):
-
     permission_classes = [GoalCommentPermission]
 
     serializer_class = GoalCommentCreateSerializer
@@ -164,20 +156,16 @@ class GoalCommentListView(generics.ListAPIView):
     ordering = ['-created']
 
     def get_queryset(self):
-
         return GoalComment.objects.filter(goal__category__board__participants__user_id=self.request.user.id).exclude(
             goal__status=Goal.Status.archived
-
         )
 
 
 class GoalCommentView(generics.RetrieveUpdateDestroyAPIView):
-
     permission_classes = [GoalCommentPermission]
     serializer_class = GoalCommentSerializer
 
     def get_queryset(self):
         return GoalComment.objects.filter(goal__category__board__participants__user_id=self.request.user.id).exclude(
             goal__status=Goal.Status.archived
-
         )

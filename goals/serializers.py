@@ -1,6 +1,4 @@
 from datetime import datetime
-from typing import Optional
-
 
 from django.db import transaction
 from django.utils import timezone
@@ -64,7 +62,6 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created', 'updated', 'user')
         fields = '__all__'
 
-
     def validate_board(self, board: Board) -> Board:
         if board.is_deleted:
             raise ValidationError('Board is deleted')
@@ -91,7 +88,6 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
     def validate_category(self, value: GoalCategory) -> GoalCategory:
         if value.is_deleted:
-
             raise ValidationError('Category is deleted')
         if not BoardParticipant.objects.filter(
             user_id=self.context['request'].user.id,
@@ -112,11 +108,10 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 class GoalSerializer(GoalCreateSerializer):
     user = ProfileSerializer(read_only=True)
 
-
     def validate_category(self, value: GoalCategory) -> GoalCategory:
         if value.is_deleted:
             raise ValidationError('Category is deleted')
-
+        return value
 
 
 class GoalCommentCreateSerializer(serializers.ModelSerializer):
@@ -145,11 +140,9 @@ class GoalCommentSerializer(GoalCommentCreateSerializer):
     user = ProfileSerializer(read_only=True)
     goal = serializers.PrimaryKeyRelatedField(read_only=True)
 
-
     def validate_goal(self, value: Goal) -> Goal:
         if value.status == Goal.Status.archived:
             raise ValidationError('Goal not found')
         if self.context['request'].user.id != value.user_id:
             raise PermissionDenied
         return value
-
