@@ -6,6 +6,8 @@ from core.models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
+    """This class provides configuration for the user section of the admin panel"""
+
     list_display = ['id', 'username', 'email', 'first_name', 'last_name']
     readonly_fields = ['last_login', 'date_joined']
     fieldsets = (

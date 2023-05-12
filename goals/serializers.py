@@ -98,11 +98,13 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate_due_date(self, value: datetime | None) -> datetime | None:
+    @staticmethod
+    def validate_due_date(value: datetime | None) -> datetime | None:
         if value:
             if value < timezone.now().date():
                 raise ValidationError('Date in past')
             return value
+        return None
 
 
 class GoalSerializer(GoalCreateSerializer):

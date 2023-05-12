@@ -4,6 +4,8 @@ from bot.models import TgUser
 
 
 class TgUserSerializer(serializers.ModelSerializer):
+    """This serializer used to serialize and deserialize TgUser model"""
+
     tg_id = serializers.SlugField(source='chat_id', read_only=True)
     username = serializers.CharField(source='user.username', read_only=True)
 

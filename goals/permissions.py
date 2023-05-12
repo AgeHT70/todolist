@@ -2,7 +2,7 @@ from typing import Any
 
 from requests import Request
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, SAFE_METHODS, BasePermission
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 
 from goals.models import Board, BoardParticipant, GoalCategory, Goal, GoalComment
 

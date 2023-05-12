@@ -4,7 +4,7 @@ from django.db import migrations, transaction
 from django.utils import timezone
 
 
-def create_objects(apps, schema_editor):
+def create_objects(apps, schema_editor):  # type: ignore
     User = apps.get_model('core', 'User')
     Board = apps.get_model('goals', 'Board')
     BoardParticipant = apps.get_model('goals', 'BoardParticipant')

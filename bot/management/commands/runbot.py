@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.management.base import BaseCommand
 
 from bot.models import TgUser
@@ -7,12 +9,15 @@ from goals.models import Goal, GoalCategory
 
 
 class Command(BaseCommand):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.tg_client = TgClient()
-        self._wait_list = {}
+        self._wait_list: dict = {}
 
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Any) -> None:
+        """
+        Handle for run telegram bot
+        """
         offset = 0
         while True:
             res = self.tg_client.get_updates(offset=offset)
@@ -20,7 +25,10 @@ class Command(BaseCommand):
                 offset = item.update_id + 1
                 self.handle_message(item.message)
 
-    def handle_message(self, msg: Message):
+    def handle_message(self, msg: Message) -> None:
+        """
+        Handle for send message to (un)authorized user
+        """
         tg_user, created = TgUser.objects.get_or_create(chat_id=msg.chat.id)
 
         if tg_user.user:
@@ -28,7 +36,12 @@ class Command(BaseCommand):
         else:
             self.handle_unauthorized_user(tg_user, msg)
 
-    def handle_authorized_user(self, tg_user: TgUser, msg: Message):
+    def handle_authorized_user(self, tg_user: TgUser, msg: Message) -> None:
+        """
+        Handle for chat with user and command (/create, /cancel, /goals) processing.
+        _wait_list - dictionary for save chat state (1 - wait category_id from user,
+        2 - wait goal title from user)
+        """
         commands: list = ['/goals', '/create', '/cancel']
         create_chat: dict | None = self._wait_list.get(msg.chat.id, None)
 
@@ -56,16 +69,23 @@ class Command(BaseCommand):
                     categories.append(f'{category.id} - {category.title}')
                     categories_id.append(str(category.id))
 
-                self.tg_client.send_message(
-                    chat_id=msg.chat.id, text=f'Choose number of category:\n' + '\n'.join(categories)
-                )
-                self._wait_list[msg.chat.id] = {
-                    'categories': categories,
-                    'categories_id': categories_id,
-                    'category_id': '',
-                    'goal_title': '',
-                    'stage': 1,
-                }
+                if categories_id:
+                    self.tg_client.send_message(
+                        chat_id=msg.chat.id, text=f'Choose number of category:\n' + '\n'.join(categories)
+                    )
+                    self._wait_list[msg.chat.id] = {
+                        'categories': categories,
+                        'categories_id': categories_id,
+                        'category_id': '',
+                        'goal_title': '',
+                        'stage': 1,
+                    }
+                else:
+                    self.tg_client.send_message(
+                        chat_id=msg.chat.id,
+                        text='There are no created categories. Please create category in TodoList app.',
+                    )
+
         if msg.text not in commands and create_chat:
             if create_chat['stage'] == 2:
                 Goal.objects.create(
@@ -89,7 +109,11 @@ class Command(BaseCommand):
         if msg.text not in commands and not create_chat:
             self.tg_client.send_message(chat_id=msg.chat.id, text=f'Unknown command!')
 
-    def handle_unauthorized_user(self, tg_user: TgUser, msg: Message):
+    def handle_unauthorized_user(self, tg_user: TgUser, msg: Message) -> None:
+        """
+        Handle for send verification code to user
+        """
+
         code = tg_user.generate_verification_code()
         tg_user.verification_code = code
         tg_user.save()
