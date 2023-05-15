@@ -8,7 +8,7 @@ from todolist.fields import PasswordField
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email')
+        fields = ('username', 'first_name', 'last_name', 'email')
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'password_repeat')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'password_repeat')
 
     def validate(self, attrs: dict) -> dict:
         """This method serves to validate the passwords"""
